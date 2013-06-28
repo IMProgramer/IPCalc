@@ -115,7 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         return ip_class;
     }
-    public void p(String m){
-        System.out.println(m);
+    public void p(String msg){
+        System.out.println(msg);
     }
 }
