@@ -54,7 +54,6 @@
       <sourceFolder url="file://$MODULE_DIR$/IPCalc/src/instrumentTest/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/IPCalc/src/instrumentTest/res" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/IPCalc/src/instrumentTest/resources" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/IPCalc/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/IPCalc/build/apk" />
       <excludeFolder url="file://$MODULE_DIR$/IPCalc/build/assets" />
       <excludeFolder url="file://$MODULE_DIR$/IPCalc/build/bundles" />
