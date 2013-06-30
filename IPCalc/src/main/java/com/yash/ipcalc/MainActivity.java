@@ -24,9 +24,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     EditText ipaddbox;
     EditText subnetbox;
-    TextView ipclassans;
-    TextView totalsubnets;
-    TextView totalhosts;
+    TextView ipClassAns;
+    TextView subnetsAns;
+    TextView hostsAns;
 
 
     @Override
@@ -40,9 +40,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void setListeners() {
         ipaddbox = (EditText) findViewById(R.id.ipet);
         subnetbox = (EditText)findViewById(R.id.subnetet);
-        ipclassans = (TextView) findViewById(R.id.ipClass);
-        totalsubnets = (TextView) findViewById(R.id.networkstv);
-        totalhosts = (TextView) findViewById(R.id.hoststv);
+        ipClassAns = (TextView) findViewById(R.id.ipClass);
+        subnetsAns = (TextView) findViewById(R.id.networkstv);
+        hostsAns = (TextView) findViewById(R.id.hoststv);
         ((Button)findViewById(R.id.calculate)).setOnClickListener(this);
     }
 
@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Get IP class
         String ip_class = getIpClass(IP_address);
         p(ip_class);
-        ipclassans.setText(ip_class);
+        ipClassAns.setText(ip_class);
 
         String subnet = subnetbox.getText().toString();
         //if Subnet is Empty create get a default
@@ -81,18 +81,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             int totalSubnets = getTotalSubnets(binarySubnet,ip_class);
             p("" + totalSubnets);
-            totalsubnets.setText("" + totalSubnets);
+            subnetsAns.setText("" + totalSubnets);
 
             int hostsPerSubnet = getHostsPerSubnet(binarySubnet);
             p("" + hostsPerSubnet);
-            totalhosts.setText(String.format("" + hostsPerSubnet));
+            hostsAns.setText(String.format("" + hostsPerSubnet));
         }
 
     }
 
     private void clear() {
-        totalhosts.setText("");
-        totalsubnets.setText("");
+        hostsAns.setText("");
+        subnetsAns.setText("");
     }
 
     private int getTotalSubnets(String binarySubnet, String ip_class) {
