@@ -51,6 +51,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 subnetbox.append("255");
             }
         });
+
+        ((Button)findViewById(R.id.bdot)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subnetbox.append(".");
+            }
+        });
     }
 
     @Override
