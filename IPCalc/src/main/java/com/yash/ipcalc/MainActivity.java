@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     TextView hostsAns;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +45,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         subnetsAns = (TextView) findViewById(R.id.networkstv);
         hostsAns = (TextView) findViewById(R.id.hoststv);
         ((Button)findViewById(R.id.calculate)).setOnClickListener(this);
+        ((Button)findViewById(R.id.b255)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subnetbox.append("255");
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         p("On click");
-        String IP_address = ((EditText)findViewById(R.id.ipet)).getText().toString();
+        String IP_address = ipaddbox.getText().toString();
         p("IP_address"+":"+IP_address);
 
         // Validate IP address
@@ -61,6 +68,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         p(ip_class);
         ipClassAns.setText(ip_class);
 
+        // Get binary IP address
+        String binaryIpAddress = getBinaryAddress(IP_address);
         String subnet = subnetbox.getText().toString();
         //if Subnet is Empty create get a default
         if (subnet.equals("")) {
@@ -77,7 +86,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             // if Subnet is Valid
         } else {
             // Get binary format of Subnet Mask
-            String binarySubnet = getBinarySubnet(subnet);
+            String binarySubnet = getBinaryAddress(subnet);
 
             int totalSubnets = getTotalSubnets(binarySubnet,ip_class);
             p("" + totalSubnets);
@@ -86,6 +95,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
             int hostsPerSubnet = getHostsPerSubnet(binarySubnet);
             p("" + hostsPerSubnet);
             hostsAns.setText(String.format("" + hostsPerSubnet));
+
+            String networkAddress = getNetworkAddress(binaryIpAddress,binarySubnet);
+            p("network address: "+networkAddress);
+            ((TextView)findViewById(R.id.networkAddresstv)).setText(networkAddress);
+
+            String broadcastAddress = getBroadcastAddress(binaryIpAddress,binarySubnet);
+            p("broadcast address: "+broadcastAddress);
+            ((TextView)findViewById(R.id.BroadcastAddresstv)).setText(broadcastAddress);
+
+            String hostRange="";
+            hostRange+=networkAddress.substring(0,networkAddress.lastIndexOf('.')+1);
+            hostRange+=Integer.parseInt(networkAddress.substring(networkAddress.lastIndexOf('.')+1))+1;
+            hostRange+=" - ";
+            hostRange+=broadcastAddress.substring(0,broadcastAddress.lastIndexOf('.')+1);
+            hostRange+=Integer.parseInt(broadcastAddress.substring(broadcastAddress.lastIndexOf('.')+1))-1;
+            ((TextView)findViewById(R.id.hostRangetv)).setText(hostRange);
         }
 
     }
@@ -158,7 +183,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public boolean validateSubnetMask(String subnet, String ip_class){
         if(!validateIpAddress(subnet))
             return false;
-        subnet = getBinarySubnet(subnet);
+        subnet = getBinaryAddress(subnet);
         int leastBits=8;
         if (ip_class.equals("A")) {
             leastBits = 8;
@@ -178,10 +203,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public int getHostsPerSubnet(String binarySubnet) {
-        return (int) Math.pow(2, 32 - binarySubnet.indexOf("0"));
+        return (int) Math.pow(2, 32 - binarySubnet.indexOf("0")) - 2;
     }
 
-    public String getBinarySubnet(String subnet){
+    public String getBinaryAddress(String subnet){
         String[] subnet_o = subnet.split("\\.");
         p("Length:"+subnet_o.length);
         p(subnet_o[0]+":"+subnet_o[1]+":"+subnet_o[2]+":"+subnet_o[3]);
@@ -201,5 +226,57 @@ public class MainActivity extends Activity implements View.OnClickListener {
         p("Binary Subnet:"+binary_subnet);
 
         return binary_subnet;
+    }
+
+    public String getBroadcastAddress(String binaryIpAddress,String binarySubnet){
+        String broadcastAddress=binaryIpAddress.substring(0,binarySubnet.indexOf('0'));
+        String ans="";
+        for(int x = binarySubnet.indexOf('0');x<32;x++){
+            broadcastAddress+='1';
+        }
+        for (int x=0;x<24;x+=8){
+            ans+=getDecimal(broadcastAddress.substring(x,x+8))+".";
+
+        }
+        ans+=getDecimal(broadcastAddress.substring(broadcastAddress.length()-8));
+
+        return ans;
+    }
+
+    public String getNetworkAddress(String binaryIpAddress,String binarySubnet){
+        String networkAddress=binaryIpAddress.substring(0,binarySubnet.indexOf('0'));
+        String ans="";
+        for(int x = binarySubnet.indexOf('0');x<32;x++){
+            networkAddress+='0';
+        }
+        for (int x=0;x<24;x+=8){
+            ans+=getDecimal(networkAddress.substring(x,x+8))+".";
+        }
+
+        ans+=getDecimal(networkAddress.substring(networkAddress.length()-8));
+        return ans;
+
+    }
+
+    public int getDecimal(String binary) {
+        int decimal=0;
+
+        for (int i = binary.length()-1; i >= 0 ; i--) {
+            if(binary.charAt(i) == '1')
+                decimal+=Math.pow(2,binary.length()-1-i);
+        }
+        return decimal;
+    }
+
+    public String doOr(String s1, String s2){
+        String ans = "";
+        for(int x=0;x<s1.length();x++){
+            if(s1.charAt(x)=='1' || s2.charAt(x)=='1'){
+                ans+='1';
+            }else{
+                ans+='0';
+            }
+        }
+        return ans;
     }
 }
