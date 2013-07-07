@@ -1,16 +1,5 @@
 package com.yash.ipcalc;
 
-/*
-    1-127 n.h.h.h A
-    128-191 n.n.h.h B
-    192-223 n.n.n.h C
-
-    1.0.0.0 126.0.0.0
-    128.0.0.0 191.255.0.0
-    192.0.1.0 223.255.255.0
- */
-
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +24,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setListeners();
-
     }
 
     private void setListeners() {
@@ -75,6 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         p(ip_class);
         ipClassAns.setText(ip_class);
 
+
         // Get binary IP address
         String binaryIpAddress = getBinaryAddress(IP_address);
         String subnet = subnetbox.getText().toString();
@@ -99,9 +88,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             p("" + totalSubnets);
             subnetsAns.setText("" + totalSubnets);
 
-            int hostsPerSubnet = getHostsPerSubnet(binarySubnet);
+            int hostsPerSubnet = getHostsPerSubnet(binarySubnet)-2;
             p("" + hostsPerSubnet);
             hostsAns.setText(String.format("" + hostsPerSubnet));
+
+            //total hosts in whole network
+            ((TextView)findViewById(R.id.totalhoststv)).setText(totalSubnets+" X "+hostsPerSubnet+" = "+(totalSubnets*hostsPerSubnet));
 
             String networkAddress = getNetworkAddress(binaryIpAddress,binarySubnet);
             p("network address: "+networkAddress);
@@ -286,4 +278,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         return ans;
     }
+
+    /*@Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }*/
 }

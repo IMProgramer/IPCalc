@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -41,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text=" . "
                 android:id="@+id/bdot"
-                android:layout_gravity="center_vertical|center"/>/>
+                android:layout_gravity="center_vertical|center"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/scrollView" android:layout_gravity="left|center_vertical">
+            android:id="@+id/scrollView" android:layout_gravity="left|center_vertical" android:layout_marginTop="10dp">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
@@ -86,13 +87,24 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/hoststv" android:layout_gravity="left|center_vertical"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total hosts in network"
+                    android:layout_gravity="left|center_vertical"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/totalhoststv" android:layout_gravity="left|center_vertical"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Subnet in binary" android:layout_gravity="left|center_vertical"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:textAppearance="?android:attr/textAppearanceSmall" android:id="@+id/subnetBinary"
                       android:layout_gravity="left|center_vertical"
-                      android:phoneNumber="false" android:editable="false"/>
+                      android:phoneNumber="false" android:editable="false" android:layout_marginTop="5dp"
+                      android:layout_marginBottom="5dp"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Network Address" android:layout_gravity="left|center_vertical"
                     />
